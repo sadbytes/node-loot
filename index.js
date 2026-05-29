@@ -1,5 +1,13 @@
 net = require('net');
 const path = require('path');
+const os = require('os');
+
+function ipcPath(id) {
+  if (process.platform === 'win32') {
+    return `\\\\?\\pipe\\loot-ipc-${id}`;
+  }
+  return path.join(os.tmpdir(), `loot-ipc-${id}.sock`);
+}
 
 const { Loot, IsCompatible, SetLogLevel } = require('./build/Release/node-loot');
 
@@ -118,7 +126,7 @@ class LootAsync {
     try {
       // this seems to fail for some users with EINVAL. why?
       // May be a wine-only problem but that's not confirmed
-      this.ipc.listen(`\\\\?\\pipe\\loot-ipc-${this.id}`, () => {
+      this.ipc.listen(ipcPath(this.id), () => {
         this.ipc.on('connection', socket => {
           this.socket = socket;
           socket
@@ -184,6 +192,12 @@ class LootAsync {
   close() {
     this.enqueue({ type: 'terminate' }, () => {
       this.worker = undefined;
+      if (this.ipc) {
+        this.ipc.close();
+      }
+      if (process.platform !== 'win32') {
+        try { require('fs').unlinkSync(ipcPath(this.id)); } catch (e) {}
+      }
     });
     this.didClose = true;
   }

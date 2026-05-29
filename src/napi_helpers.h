@@ -91,6 +91,7 @@ void convertArg<std::string>(Tag<std::string>, std::string &out, const Napi::Cal
   out = fromNAPI<std::string>(info[idx]);
 }
 
+#ifdef _WIN32
 template<>
 void convertArg<std::wstring>(Tag<std::wstring>, std::wstring &out, const Napi::CallbackInfo &info, int idx) {
   if (!info[idx].IsString()) {
@@ -98,6 +99,7 @@ void convertArg<std::wstring>(Tag<std::wstring>, std::wstring &out, const Napi::
   }
   out = fromNAPI<std::wstring>(info[idx]);
 }
+#endif
 
 template<>
 void convertArg<bool>(Tag<bool>, bool &out, const Napi::CallbackInfo &info, int idx) {

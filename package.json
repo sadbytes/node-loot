@@ -7,9 +7,9 @@
     "url": "https://github.com/Nexus-Mods/node-loot.git"
   },
   "scripts": {
-    "upload": "prebuild -r napi -t 9 -a x64 --prepack codesign",
+    "upload": "prebuild -r napi -t 9 --prepack codesign",
     "rebuild": "autogypi && node-gyp rebuild",
-    "install": "prebuild-install -r napi -t 9 -a x64 || npm run rebuild"
+    "install": "prebuild-install -r napi -t 9 || npm run rebuild"
   },
   "author": "Black Tree Gaming Ltd.",
   "license": "GPL-3.0",

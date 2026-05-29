@@ -21,11 +21,10 @@
                 "./loot_api/include",
                 "<!(node -p \"require('node-addon-api').include_dir\")"
             ],
-            "libraries": [
-                "-l../loot_api/libloot"
-            ],
+            "libraries": [],
             'cflags!': ['-fno-exceptions', '-g', '-O0'],
             'cflags_cc!': ['-fno-exceptions'],
+            'cflags_cc': ['-std=c++20'],
             'msvs_settings': {
               'VCCLCompilerTool': {
                 'ExceptionHandling': 1,
@@ -49,6 +48,7 @@
                   "WINVER=0x600"
                 ],
                 "libraries": [
+                  "-l../loot_api/libloot",
                   "-DelayLoad:node.exe",
                 ],
                 'msvs_settings': {
@@ -59,6 +59,13 @@
                     'LinkTimeCodeGeneration': 1
                   }
                 }
+              }],
+              ["OS=='linux'", {
+                "libraries": [
+                  "-L<(module_root_dir)/loot_api",
+                  "-lloot",
+                  "-Wl,-rpath,'$$ORIGIN/../../loot_api'"
+                ]
               }]
             ]
         }

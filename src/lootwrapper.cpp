@@ -136,7 +136,7 @@ Loot::Loot(const Napi::CallbackInfo &info)
   , m_LogCallback(Napi::ThreadSafeFunction::New(info.Env(), info[4].As<Napi::Function>(), "logcb", 0, 1))
 {
   std::string game, language;
-  std::wstring gamePath, gameLocalPath;
+  PathString gamePath, gameLocalPath;
   unpackArgs(info, game, gamePath, gameLocalPath, language);
 
   m_Language = language;
@@ -177,7 +177,7 @@ Napi::Value Loot::loadLists(const Napi::CallbackInfo &info) {
    * loadMasterlist, loadMasterlistWithPrelude and loadUserlist.
    * We're going to consolidate both calls in this function for now.
   */
-  std::wstring masterlistPath, userlistPath, preludePath;
+  PathString masterlistPath, userlistPath, preludePath;
   unpackArgs(info, masterlistPath, userlistPath, preludePath);
 
   try {
