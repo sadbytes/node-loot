@@ -64,7 +64,7 @@
                 "libraries": [
                   "-L<(module_root_dir)/loot_api",
                   "-lloot",
-                  "-Wl,-rpath,'$$ORIGIN/../../loot_api'"
+                  "-Wl,-rpath,'$$ORIGIN/../../loot_api:$$ORIGIN'"
                 ]
               }]
             ]
