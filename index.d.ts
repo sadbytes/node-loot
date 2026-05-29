@@ -142,3 +142,4 @@ export enum LogLevel {
 
 export function IsCompatible(major: number, minor: number, patch: number): boolean;
 export function SetLogLevel(level: LogLevel): void;
+export function ipcPath(id: string): string;

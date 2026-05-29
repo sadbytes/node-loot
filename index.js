@@ -1,13 +1,6 @@
 net = require('net');
 const path = require('path');
-const os = require('os');
-
-function ipcPath(id) {
-  if (process.platform === 'win32') {
-    return `\\\\?\\pipe\\loot-ipc-${id}`;
-  }
-  return path.join(os.tmpdir(), `loot-ipc-${id}.sock`);
-}
+const ipcPath = require('./ipcPath');
 
 const { Loot, IsCompatible, SetLogLevel } = require('./build/Release/node-loot');
 
@@ -305,6 +298,7 @@ class LootAsync {
 
 module.exports = {
   AlreadyClosed,
+  ipcPath,
   LogLevel,
   Loot,
   LootAsync,

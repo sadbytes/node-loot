@@ -1,6 +1,5 @@
 const net = require('net');
-const path = require('path');
-const os = require('os');
+const ipcPath = require('./ipcPath');
 
 const { Loot, SetErrorLanguageEN, SetLogLevel } = require('./build/Release/node-loot');
 
@@ -12,13 +11,6 @@ process.on('uncaughtException', error => {
 const CHUNK_SIZE = 32 * 1024;
 
 let currentLogLevel = 2; // default: info (matches previous hardcoded filter)
-
-function ipcPath(id) {
-  if (process.platform === 'win32') {
-    return `\\\\?\\pipe\\loot-ipc-${id}`;
-  }
-  return path.join(os.tmpdir(), `loot-ipc-${id}.sock`);
-}
 
 const client = net.connect(ipcPath(process.argv[2]), (arg) => {
   let instance;
